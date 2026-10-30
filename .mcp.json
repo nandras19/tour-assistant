@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "inquiry-log": {
+      "command": "python",
+      "args": ["mcp_server/inquiry_log.py"]
+    }
+  }
+}
