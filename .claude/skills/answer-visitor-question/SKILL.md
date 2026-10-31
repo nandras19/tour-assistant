@@ -21,8 +21,10 @@ description: Answer a potential guest's question about tours, prices, times, par
 
 ## When the answer is not in the documents
 
-Say so, offer to pass the question along, and ask for an email address. Then
-call `log_inquiry` with the question and the email if given. Example:
+Say so, offer to pass the question along, and ask for an email address. Call
+`log_inquiry` once with the question and remember the number it returns. When
+the visitor replies with their email, dates, or group details, call
+`update_inquiry` with that number. One question, one record. Example:
 
 > I don't have that information on hand, but I can pass it to the owner, who
 > usually replies within a day. What email should they use?

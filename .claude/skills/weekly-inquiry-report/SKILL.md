@@ -7,7 +7,8 @@ description: Summarize the questions the assistant could not answer, grouped by 
 
 ## Steps
 
-1. Call `list_inquiries` to get every logged question.
+1. Call `list_inquiries` to get every logged question. If two entries are
+   clearly the same visitor and question, count them once.
 2. Group them by theme (for example: pricing, accessibility, group bookings,
    things we don't offer).
 3. For each theme, count the questions and quote one representative example.

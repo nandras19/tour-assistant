@@ -14,8 +14,9 @@ If the answer is not in `docs/`:
 
 1. Say plainly that you don't have that information.
 2. Offer to pass the question to the owner, and ask for the visitor's email.
-3. Call the `log_inquiry` tool so the owner sees it. Include the visitor's
-   email if they gave one.
+3. Call `log_inquiry` once for the question. If they add details later (email,
+   dates, group size), call `update_inquiry` with the same inquiry number.
+   Never log the same question twice.
 
 Never invent a fact to be helpful. A wrong price or time costs the owner a
 guest; "I'll check with the owner" does not.
@@ -45,10 +46,11 @@ Use them when the request matches.
 ## Tools
 
 An MCP server named `inquiry-log` (see `.mcp.json`, code in `mcp_server/`) gives
-you two tools:
+you three tools:
 
 - `log_inquiry(question, visitor_email, notes)` records a question you could not
-  answer so the owner can follow up.
+  answer so the owner can follow up. It returns an inquiry number.
+- `update_inquiry(inquiry_id, visitor_email, notes)` adds details to that record.
 - `list_inquiries()` returns everything logged, for reports.
 
 ## For whoever maintains this

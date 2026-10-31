@@ -29,7 +29,7 @@ records the question for the owner.
 
 Then try one it can't know:
 
-> Do you offer tours in Spanish?
+> Do you offer a group discount for a school field trip of 30 students?
 
 Then ask for the report:
 
@@ -59,9 +59,9 @@ Three ideas carry the design:
    for one kind of request. The owner can read them. Changing how emails sound
    means editing a text file, not code.
 3. **A tool the agent can call.** The MCP server is about 60 lines of Python.
-   It gives the agent `log_inquiry` and `list_inquiries`. That turns "I don't
-   know" into a lead for the owner, and the weekly report turns the log into a
-   list of what to add to the documents.
+   It gives the agent `log_inquiry`, `update_inquiry`, and `list_inquiries`.
+   That turns "I don't know" into a lead for the owner, and the weekly report
+   turns the log into a list of what to add to the documents.
 
 ## What I learned
 
@@ -71,6 +71,9 @@ Three ideas carry the design:
   the fallback spelled out, or the model drifts toward being helpful by guessing.
 - MCP is simpler than it sounds: a Python function with a docstring becomes a
   tool the agent can see and call.
+- Test with a real conversation, not one question. The first live run logged
+  one inquiry three times because the visitor answered in pieces. The fix was
+  an `update_inquiry` tool and one sentence in the instructions.
 
 ## Running it yourself
 

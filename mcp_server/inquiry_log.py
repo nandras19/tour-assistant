@@ -2,7 +2,7 @@
 
 MCP (Model Context Protocol) is the standard way to give an AI assistant tools.
 Claude Code starts this script, talks to it over standard input/output, and
-sees the two functions below as tools it can call.
+sees the three functions below as tools it can call.
 
 Run by hand to check it starts:   python mcp_server/inquiry_log.py
 (It will wait silently for messages. Press Ctrl+C to stop.)
@@ -54,6 +54,31 @@ def log_inquiry(question: str, visitor_email: str = "", notes: str = "") -> str:
     items.append(entry)
     save(items)
     return f"Logged inquiry #{entry['id']}. The owner will see it in the next report."
+
+
+@mcp.tool()
+def update_inquiry(inquiry_id: int, visitor_email: str = "", notes: str = "") -> str:
+    """Add details to an inquiry that was already logged, instead of logging a new one.
+
+    Use this when the visitor gives their email or more context after the
+    question was logged.
+
+    Args:
+        inquiry_id: The number returned by log_inquiry.
+        visitor_email: Their email address, if newly given.
+        notes: Extra details to append (dates, group size, chaperones).
+    """
+    items = load()
+    for entry in items:
+        if entry["id"] == inquiry_id:
+            if visitor_email.strip():
+                entry["visitor_email"] = visitor_email.strip()
+            if notes.strip():
+                # Keep earlier notes and add the new ones on a new line.
+                entry["notes"] = (entry["notes"] + "\n" + notes.strip()).strip()
+            save(items)
+            return f"Updated inquiry #{inquiry_id}."
+    return f"No inquiry #{inquiry_id} found. Use log_inquiry to create one."
 
 
 @mcp.tool()
